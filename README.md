@@ -67,7 +67,7 @@ which just adds the additional of the noise identity so
 
 $$E_{q(u)}[p(y|u)]= \mathcal{N}\left(y; K_{\mathbf{X Z}} K_{\mathbf{Z Z}}^{-1} \mathbf{m}, K_{\mathbf{XZ}} K_{\mathbf{ZZ}}^{-1}S K_{\mathbf{Z Z}}^{-1}K_{\mathbf{ZX}}+K_{\mathbf{X X}}-K_{\mathbf{X Z}} K_{\mathbf{Z Z}}^{-1} K_{\mathbf{Z X}} +\sigma_{n}^{2}I \right)$$
 
-Hence, this term can be calculated analytically, given the hyperparameters on the covariance matrix ($l$, $\sigma_{n}$ and $\sigma$), the inducing point locations (Z) and the variational parameters (m and S). The second term in the ELBO is the KL divergence between two Gaussian distributions, $$q(u) \sim \mathcal{N}\left(m, S\right)$$ and $$p(u) \sim \mathcal{N}\left(0, K_{ZZ}\right)$$. This is a standard result equal to 
+Hence, this term can be calculated analytically, given the hyperparameters on the covariance matrix ($l$, $\sigma_{n}$ and $\sigma$), the inducing point locations (Z) and the variational parameters (m and S). To avoid the $O(N^3)$ complexity when evaluating this expectation, A Nystrom approximation is used by assuming that $$K_{\mathbf{X X}}\approx K_{\mathbf{X Z}} K_{\mathbf{Z Z}}^{-1} K_{\mathbf{Z X}}$$. The remaining covariance can be inverted efficently using the Woodbury identity. The overall complexity is then $$O(NM^2)$$. The second term in the ELBO is the KL divergence between two Gaussian distributions, $$q(u) \sim \mathcal{N}\left(m, S\right)$$ and $$p(u) \sim \mathcal{N}\left(0, K_{ZZ}\right)$$. This is a standard result equal to 
 
 $$
 \text{KL}(q(u) \parallel p(u)) = \frac{1}{2} \left[ \text{tr}(S^{-1} K_{\mathbf{ZZ}}) + m^T K_{\mathbf{ZZ}}^{-1} m - d + \log \frac{\det K_{\mathbf{ZZ}}}{\det S} \right]
@@ -80,4 +80,9 @@ p(f^{*}|y) \mathcal{N}\left(K_{\mathbf{T Z}} K_{\mathbf{Z Z}}^{-1} \mathbf{m}, K
 $$
 
 In both the training and prediction stage, the matrix $$K_{XX}$$ is now not inverted; only $$K_{ZZ}$$ is inverted which is ideally considerably smaller. The information from N datapoints can therefor ebe distilled down into M inducing points efficently.
-This is implemented in the `sparse_GP' class in the model file.
+
+This is implemented in the `sparse_GP' class in the model file. The two figures below show an exact GP and a sparse GP with 5 inducing points. When 5 inducing points are used the apprxoimation is reasonable but imperfect. Optimising the inducing points location is challenging.
+
+![Alt Text](exact_GP.png)
+
+![Alt Text](5_inducing_points.png)
