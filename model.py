@@ -15,6 +15,9 @@ import matplotlib.pyplot as plt
 import numpy as np
 
 class exact_GP(nn.Module):
+    """
+    Define an exact GP model
+    """
     def __init__(self,X,y):
         super(exact_GP, self).__init__()
         self.X=X.reshape(-1,1)
@@ -82,6 +85,9 @@ class exact_GP(nn.Module):
     
     
 class sparse_GP(nn.Module):
+    """
+    Define a sparse GP model with pseudo inputs
+    """
     def __init__(self,X,y,M=10):
         super(sparse_GP, self).__init__()
         self.X=X.reshape(-1,1)
@@ -120,7 +126,7 @@ class sparse_GP(nn.Module):
        
         mu_y = torch.matmul(A , self.m)
 
-        ##use a nystrom approximation to calculate the inverse of the covariance matrix. 
+        ##use a nystrom approximation and Woodbury identity to calculate the inverse of the covariance matrix. 
         sigma_n2 = self.sig_n**2
         B = torch.eye(self.M) + torch.matmul(A.T, A) / sigma_n2  # MxM matrix
         B_inv = torch.linalg.solve(B, torch.eye(self.M))  # Invert MxM matrix
