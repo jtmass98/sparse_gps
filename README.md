@@ -9,7 +9,7 @@ where $y$ and $x$ are observed and the function values are to be learned and eva
 
 $$p(f|y)=\mathcal{N}\left(K_{TX}K_{XX}^{-1} y,K_{TT}-K_{TX}K_{XX}^{-1}K_{XT}\right)$$ 
 
-where there are N training points and f is evaluated at T test points. This is implemented in the model file as `exact_GP'. The inversion of the $N\timesN$ matrix $K_{XX}$ limits this method to N<10,000, hence it is not applicable to larger datasets. Therefore sparse GPs must be used.
+where there are N training points and f is evaluated at T test points. This is implemented in the model file as `exact_GP'. The inversion of the $$N\times N$$ matrix $K_{XX}$ limits this method to N<10,000, hence it is not applicable to larger datasets. Therefore sparse GPs must be used.
 
 The idea is to represent the posterior over functions, $p(f|y)$ using a variational distribution $q(f)$:
 
