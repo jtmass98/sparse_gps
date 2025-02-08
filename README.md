@@ -38,6 +38,7 @@ where
 $$q(f)=\int{p(f|u)q(u)du}$$ 
 
 This term is an approximation for the posterior over f, given the data. This must first be estimated by considering the conditional distribution of $$\mathbf{f}$$ given $$\mathbf{u}$$. This can be written as:
+
 $$
 p(\mathbf{f} | \mathbf{u}) \sim \mathcal{N} \left( K_{\mathbf{X Z}} K_{\mathbf{Z Z}}^{-1} \mathbf{u}, K_{\mathbf{X X}} - K_{\mathbf{X Z}} K_{\mathbf{Z Z}}^{-1} K_{\mathbf{Z X}} \right)
 $$
