@@ -9,7 +9,11 @@ import torch
 import numpy as np
 import model
 import matplotlib.pyplot as plt
-
+import matplotlib
+plt.rcParams["mathtext.default"]= "regular"
+matplotlib.rcParams.update({'font.size': 18})
+plt.rcParams["font.family"] = "Times New Roman"
+#%%
 
 ##define a nonlinear function to learn
 def f(x):
@@ -25,7 +29,7 @@ y=f(x)+torch.normal(mean=torch.zeros_like(x),std=0.1)
 ####choose either the exact or sparse GP
 
 ##create the sparse GP
-GP=model.sparse_GP(x,y,30)
+GP=model.sparse_GP(x,y,6)
 
 #%%
 ##or create the exact gp
@@ -45,26 +49,28 @@ y1_std = np.sqrt(np.diag(y1_sig))
 
 
 #plot results
-plt.scatter(x,y,label='Observations')
+# plt.title('5 Inducing Points')
+plt.title('Exact GP')
+plt.plot(x1,y1_mu,label='Mean Prediction',color='red',linestyle='--',linewidth=3)
+plt.plot(x1,y1,label='Ground truth',color='black',linestyle='-',linewidth=3)
+plt.fill_between(x1.squeeze(), 
+                 y1_mu.squeeze() - 2 * y1_std.squeeze(), 
+                 y1_mu.squeeze() + 2 * y1_std.squeeze(), 
+                 color="red", alpha=0.5, label="Confidence Interval (±2σ)")
+
+# Labels and legend
+plt.scatter(x,y,label='Observations',s=50,color='black')
 
 try:
     GP.Z
     print('Approx GP')
-    plt.scatter(GP.Z.detach(),GP.m.detach(),marker='x',label='Inducing Points')  ##if a sparse GP plot the inducing points
+    plt.scatter(GP.Z.detach(),GP.m.detach(),marker='x',label='Inducing Points',s=50,color='red')  ##if a sparse GP plot the inducing points
 except Exception as e:
     print('Exact GP')
 else:
     pass
 
 
-plt.plot(x1,y1_mu,label='Mean Prediction')
-plt.plot(x1,y1,label='Ground truth')
-plt.fill_between(x1.squeeze(), 
-                 y1_mu.squeeze() - 2 * y1_std.squeeze(), 
-                 y1_mu.squeeze() + 2 * y1_std.squeeze(), 
-                 color="blue", alpha=0.2, label="Confidence Interval (±2σ)")
-
-# Labels and legend
 plt.xlabel("x")
 plt.ylabel("y")
 plt.legend()
