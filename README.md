@@ -49,7 +49,7 @@ $$f=K_{\mathbf{X Z}} K_{\mathbf{Z Z}}^{-1} \mathbf{u}+K_{\mathbf{X X}} - K_{\mat
 
 and because u is a Gaussian random variable:
 
-$$f=K_{\mathbf{X Z}} K_{\mathbf{Z Z}}^{-1} \mathbf{m}+K_{\mathbf{X Z}} K_{\mathbf{Z Z}}^{-1}SK_{\mathbf{Z Z}}^{-1}K_{\mathbf{X Z}}^{T}+K_{\mathbf{X X}} - K_{\mathbf{X Z}} K_{\mathbf{Z Z}}^{-1} K_{\mathbf{Z X}}$$
+$$f=K_{\mathbf{X Z}} K_{\mathbf{Z Z}}^{-1} \mathbf{m}+K_{\mathbf{X Z}} K_{\mathbf{Z Z}}^{-1}SK_{\mathbf{Z Z}}^{-1}K_{\mathbf{ZX}}+K_{\mathbf{X X}} - K_{\mathbf{X Z}} K_{\mathbf{Z Z}}^{-1} K_{\mathbf{Z X}}$$
 
 again from standard results for multivariate Gaussians. We have therefore calculated an expression for $$q(f)$$:
 
@@ -65,7 +65,7 @@ $$y=f+\boldsymbol{\epsilon}_{n}$$
 
 which just adds the additional of the noise identity so
 
-$$E_{q(u)}[p(y|u)]= \mathcal{N}\left(y; K_{\mathbf{X Z}} K_{\mathbf{Z Z}}^{-1} \mathbf{m}, K_{\mathbf{X Z}} K_{\mathbf{Z Z}}^{-1}SK_{\mathbf{Z Z}}^{-1}K_{\mathbf{X Z}}^{T}+K_{\mathbf{X X}}-K_{\mathbf{X Z}} K_{\mathbf{Z Z}}^{-1} K_{\mathbf{Z X}} +\sigma_{n}^{2}I \right)$$
+$$E_{q(u)}[p(y|u)]= \mathcal{N}\left(y; K_{\mathbf{X Z}} K_{\mathbf{Z Z}}^{-1} \mathbf{m}, K_{\mathbf{XZ}} K_{\mathbf{ZZ}}^{-1}S K_{\mathbf{Z Z}}^{-1}K_{\mathbf{ZX}}+K_{\mathbf{X X}}-K_{\mathbf{X Z}} K_{\mathbf{Z Z}}^{-1} K_{\mathbf{Z X}} +\sigma_{n}^{2}I \right)$$
 
 Hence, this term can be calculated analytically, given the hyperparameters on the covariance matrix ($l$, $\sigma_{n}$ and $\sigma$), the inducing point locations (Z) and the variational parameters (m and S). The second term in the ELBO is the KL divergence between two Gaussian distributions, $$q(u) \sim \mathcal{N}\left(m, S\right)$$ and $$p(u) \sim \mathcal{N}\left(0, K_{ZZ}\right)$$. This is a standard result equal to 
 
@@ -76,7 +76,7 @@ $$
 The ELBO is therefore maximised (by minimising -ELBO) by optimising the hyperparameters, the variational parameters, and the inducing point locations. The resulting variational distribution can then be used to estimate the function value at T test points $f^{*}$:
 
 $$
-p(f^{*}|y) \mathcal{N}\left(K_{\mathbf{T Z}} K_{\mathbf{Z Z}}^{-1} \mathbf{m}, K_{\mathbf{T Z}} K_{\mathbf{Z Z}}^{-1}SK_{\mathbf{Z Z}}^{-1}K_{\mathbf{T Z}}^{T}+K_{\mathbf{T T}}-K_{\mathbf{T Z}} K_{\mathbf{Z Z}}^{-1} K_{\mathbf{Z X}}\right)
+p(f^{*}|y) \mathcal{N}\left(K_{\mathbf{T Z}} K_{\mathbf{Z Z}}^{-1} \mathbf{m}, K_{\mathbf{T Z}} K_{\mathbf{Z Z}}^{-1}SK_{\mathbf{Z Z}}^{-1}K_{\mathbf{ZT}}+K_{\mathbf{T T}}-K_{\mathbf{T Z}} K_{\mathbf{Z Z}}^{-1} K_{\mathbf{Z X}}\right)
 $$
 
 In both the training and prediction stage, the matrix $$K_{XX}$$ is now not inverted; only $$K_{ZZ}$$ is inverted which is ideally considerably smaller. The information from N datapoints can therefor ebe distilled down into M inducing points efficently.
