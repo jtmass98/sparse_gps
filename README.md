@@ -1,5 +1,5 @@
 # sparse_GP
-Toy problem to learn sparse GPs
+Toy problem implementing sparse GPs with inducing points.
 
 The problem set up is as follows:
 
